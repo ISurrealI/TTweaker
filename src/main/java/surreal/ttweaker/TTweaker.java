@@ -2,6 +2,7 @@ package surreal.ttweaker;
 
 import crafttweaker.CraftTweakerAPI;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import surreal.ttweaker.expansions.*;
@@ -23,7 +24,7 @@ public class TTweaker {
         loadClass(TTConfig.ADDITIONS.liquidDefExpansion, LiquidDefinitionExpansion.class);
         loadClass(TTConfig.ADDITIONS.liquidStackExpansion, LiquidStackExpansion.class);
 
-        loadClass(TTConfig.SUPPORTS.psiSupport, CTTrick.class);
+        loadClass(TTConfig.SUPPORTS.psiSupport && Loader.isModLoaded("psi"), CTTrick.class);
     }
 
     private static void loadClass(boolean check, Class<?>... clazz) {
