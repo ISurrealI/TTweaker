@@ -30,7 +30,14 @@ repositories {
         name "blamejared"
         url "http://maven.blamejared.com/"
     }
-    maven { url = "http://dvs1.progwml6.com/files/maven" }
+    maven {
+        name "progwml6"
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+
+    maven {
+        url "https://www.cursemaven.com"
+    }
 }
 
 dependencies {
@@ -38,8 +45,8 @@ dependencies {
     deobfCompile "mezz.jei:jei_1.12.2:+"
 
     // Psi
-    deobfCompile "vazkii.autoreglib:AutoRegLib:1.3-33.34"
-    deobfCompile "vazkii.psi:Psi:r1.1-78.77"
+    compileOnly "vazkii.autoreglib:AutoRegLib:1.3-33.34"
+    compileOnly "vazkii.psi:Psi:r1.1-78.77"
 }
 
 processResources {

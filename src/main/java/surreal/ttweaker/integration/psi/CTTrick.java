@@ -1,4 +1,4 @@
-package surreal.ttweaker.psi;
+package surreal.ttweaker.integration.psi;
 
 import crafttweaker.annotations.ModOnly;
 import crafttweaker.annotations.ZenRegister;
