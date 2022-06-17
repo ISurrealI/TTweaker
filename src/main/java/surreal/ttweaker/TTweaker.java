@@ -1,12 +1,7 @@
 package surreal.ttweaker;
 
-import crafttweaker.CraftTweakerAPI;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import surreal.ttweaker.expansions.*;
-import surreal.ttweaker.integration.psi.CTTrick;
 
 @Mod(modid = TTweaker.MODID, name = TTweaker.NAME, version = TTweaker.VERSION)
 public class TTweaker {
@@ -16,22 +11,5 @@ public class TTweaker {
 
     static {
         FluidRegistry.enableUniversalBucket();
-    }
-
-    @Mod.EventHandler
-    public static void preInit(FMLPreInitializationEvent event) {
-        loadClass(TTConfig.ADDITIONS.gameExpansion, GameExpansion.class);
-        loadClass(TTConfig.ADDITIONS.liquidDefExpansion, LiquidDefinitionExpansion.class);
-        loadClass(TTConfig.ADDITIONS.liquidStackExpansion, LiquidStackExpansion.class);
-
-        loadClass(TTConfig.SUPPORTS.psiSupport && Loader.isModLoaded("psi"), CTTrick.class);
-    }
-
-    private static void loadClass(boolean check, Class<?>... clazz) {
-        if (check) {
-            for (Class<?> c : clazz) {
-                CraftTweakerAPI.registerClass(c);
-            }
-        }
     }
 }

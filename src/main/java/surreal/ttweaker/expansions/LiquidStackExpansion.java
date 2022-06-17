@@ -1,5 +1,6 @@
 package surreal.ttweaker.expansions;
 
+import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
@@ -10,6 +11,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import stanhebben.zenscript.annotations.ZenMethodStatic;
 
 @SuppressWarnings("unused")
+
+@ZenRegister
 @ZenExpansion("crafttweaker.liquid.ILiquidStack")
 public class LiquidStackExpansion {
     @ZenMethod

@@ -1,5 +1,6 @@
 package surreal.ttweaker.expansions;
 
+import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.block.IBlockDefinition;
 import crafttweaker.api.liquid.ILiquidDefinition;
 import crafttweaker.api.minecraft.CraftTweakerMC;
@@ -9,6 +10,8 @@ import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethodStatic;
 
 @SuppressWarnings("unused")
+
+@ZenRegister
 @ZenExpansion("crafttweaker.game.IGame")
 public class GameExpansion {
     @ZenMethodStatic
