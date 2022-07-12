@@ -3,8 +3,7 @@ package surreal.ttweaker.core;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import surreal.TTUtils;
-import surreal.ttweaker.TTweaker;
+import surreal.ttweaker.TTUtils;
 import surreal.ttweaker.crafttweaker.CTBrewingFuel;
 
 import javax.annotation.Nonnull;

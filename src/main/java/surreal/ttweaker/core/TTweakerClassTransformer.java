@@ -49,14 +49,21 @@ public class TTweakerClassTransformer implements IClassTransformer {
                 if (method.name.equals(TTweakerLoadingPlugin.deobf ? "update" : "func_73660_a")) {
                     AbstractInsnNode node = null;
                     for (AbstractInsnNode n : method.instructions.toArray()) {
-                        if (n.getOpcode() == ALOAD && n.getPrevious().getOpcode() == IFGT) {
+                        if (/*n.getOpcode() == ALOAD && n.getPrevious().getOpcode() == IFGT*/
+                        n.getOpcode() == GETFIELD && n.getNext().getOpcode() == IFGT) {
                             node = n.getNext();
                             break;
                         }
                     }
 
                     if (node != null) {
-                        AbstractInsnNode amongus = null;
+                        AbstractInsnNode amongus = new JumpInsnNode(IF_ICMPGE, ((JumpInsnNode) node).label);
+
+                        method.instructions.insertBefore(node, new IntInsnNode(BIPUSH, 20));
+                        node = node.getNext();
+                        method.instructions.remove(node.getPrevious());
+                        method.instructions.insertBefore(node, amongus);
+                        node = node.getNext();
 
                         for (int i = 0; i < 3; i++) {
                             if (i == 2) amongus = new JumpInsnNode(IFEQ, ((JumpInsnNode) node).label);
@@ -73,8 +80,21 @@ public class TTweakerClassTransformer implements IClassTransformer {
                         method.instructions.remove(node.getPrevious());
 
                         list.clear();
+                        list.add(new InsnNode(DUP));
+                        list.add(new FieldInsnNode(GETFIELD, "net/minecraft/tileentity/TileEntityBrewingStand", "fuel", "I"));
+                        list.add(new VarInsnNode(ALOAD, 1));
                         list.add(new MethodInsnNode(INVOKESTATIC, HOOKS, "getFuelValue", "(Lnet/minecraft/item/ItemStack;)I", false));
+                        list.add(new InsnNode(IADD));
                         method.instructions.insertBefore(node, list);
+
+                        /*
+                        * methodVisitor.visitVarInsn(ALOAD, 0);
+            methodVisitor.visitInsn(DUP);
+            methodVisitor.visitFieldInsn(GETFIELD, "surreal/ttweaker/TTweaker", "fuck", "I");
+            methodVisitor.visitVarInsn(ILOAD, 1);
+            methodVisitor.visitInsn(IADD);
+            methodVisitor.visitFieldInsn(PUTFIELD, "surreal/ttweaker/TTweaker", "fuck", "I");
+                        * */
                     }
                 }
                 if (method.name.equals(TTweakerLoadingPlugin.deobf ? "isItemValidForSlot" : "func_94041_b")) {

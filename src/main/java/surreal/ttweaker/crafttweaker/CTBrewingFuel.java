@@ -1,17 +1,14 @@
 package surreal.ttweaker.crafttweaker;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import surreal.TTUtils;
+import surreal.ttweaker.TTUtils;
 
 import java.util.Map;
-import java.util.Set;
 
 @SuppressWarnings("unused")
 

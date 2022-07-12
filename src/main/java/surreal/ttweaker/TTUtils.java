@@ -1,4 +1,4 @@
-package surreal;
+package surreal.ttweaker;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
