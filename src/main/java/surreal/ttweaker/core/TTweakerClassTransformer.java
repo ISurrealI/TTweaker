@@ -81,20 +81,11 @@ public class TTweakerClassTransformer implements IClassTransformer {
 
                         list.clear();
                         list.add(new InsnNode(DUP));
-                        list.add(new FieldInsnNode(GETFIELD, "net/minecraft/tileentity/TileEntityBrewingStand", "fuel", "I"));
+                        list.add(new FieldInsnNode(GETFIELD, "net/minecraft/tileentity/TileEntityBrewingStand", TTweakerLoadingPlugin.deobf ? "fuel" : "field_184278_m", "I"));
                         list.add(new VarInsnNode(ALOAD, 1));
                         list.add(new MethodInsnNode(INVOKESTATIC, HOOKS, "getFuelValue", "(Lnet/minecraft/item/ItemStack;)I", false));
                         list.add(new InsnNode(IADD));
                         method.instructions.insertBefore(node, list);
-
-                        /*
-                        * methodVisitor.visitVarInsn(ALOAD, 0);
-            methodVisitor.visitInsn(DUP);
-            methodVisitor.visitFieldInsn(GETFIELD, "surreal/ttweaker/TTweaker", "fuck", "I");
-            methodVisitor.visitVarInsn(ILOAD, 1);
-            methodVisitor.visitInsn(IADD);
-            methodVisitor.visitFieldInsn(PUTFIELD, "surreal/ttweaker/TTweaker", "fuck", "I");
-                        * */
                     }
                 }
                 if (method.name.equals(TTweakerLoadingPlugin.deobf ? "isItemValidForSlot" : "func_94041_b")) {
