@@ -10,3 +10,4 @@ BrewingFuel.clear();
  * adds fuel
  */
 BrewingFuel.addFuel(<minecraft:iron_ingot>);
+BrewingFuel.addFuel(<minecraft:gold_ingot>, 10);
