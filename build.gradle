@@ -23,6 +23,11 @@ minecraft {
     runDir = "run"
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
+    def args = [
+            '-Dfml.coreMods.load=surreal.ttweaker.core.TTweakerLoadingPlugin'
+    ]
+    clientJvmArgs.addAll(args)
+    serverJvmArgs.addAll(args)
 }
 
 repositories {
@@ -61,5 +66,15 @@ processResources {
         
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+                "FMLCorePluginContainsFMLMod": true,
+                "FMLCorePlugin": 'surreal.ttweaker.core.TTweakerLoadingPlugin',
+                "ForceLoadAsMod": true
+        ])
     }
 }

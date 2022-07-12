@@ -1,5 +1,6 @@
 package surreal.ttweaker.crafttweaker;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
@@ -9,6 +10,7 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 import surreal.TTUtils;
 
+import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("unused")
@@ -16,15 +18,24 @@ import java.util.Set;
 @ZenRegister
 @ZenClass("mods.ttweaker.BrewingFuel")
 public class CTBrewingFuel {
-    public static final Set<String> FUELS = Sets.newHashSet(TTUtils.stackAsString(new ItemStack(Items.BLAZE_POWDER)));
+    public static final Map<String, Integer> FUELS = Maps.newHashMap();
 
     @ZenMethod
     public static void addFuel(IItemStack stack) {
-        if (stack != null) FUELS.add(TTUtils.stackAsString((ItemStack) stack.getInternal()));
+        addFuel(stack, 20);
+    }
+
+    @ZenMethod
+    public static void addFuel(IItemStack stack, int fuelAmount) {
+        if (stack != null) FUELS.put(TTUtils.stackAsString((ItemStack) stack.getInternal()), Math.min(fuelAmount, 20));
     }
 
     @ZenMethod
     public static void clear() {
         FUELS.clear();
+    }
+
+    static {
+        FUELS.put("minecraft:blaze_powder:0", 20);
     }
 }

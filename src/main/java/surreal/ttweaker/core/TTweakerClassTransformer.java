@@ -7,6 +7,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.*;
 import scala.tools.asm.Type;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -45,7 +46,7 @@ public class TTweakerClassTransformer implements IClassTransformer {
     static {
         MAP.put("net.minecraft.tileentity.TileEntityBrewingStand", cls -> {
             for (MethodNode method : cls.methods) {
-                if (method.name.equals("update")) {
+                if (method.name.equals(TTweakerLoadingPlugin.deobf ? "update" : "func_73660_a")) {
                     AbstractInsnNode node = null;
                     for (AbstractInsnNode n : method.instructions.toArray()) {
                         if (n.getOpcode() == ALOAD && n.getPrevious().getOpcode() == IFGT) {
@@ -67,9 +68,16 @@ public class TTweakerClassTransformer implements IClassTransformer {
                         list.add(new MethodInsnNode(INVOKESTATIC, HOOKS, "hasFuel", "(Lnet/minecraft/item/ItemStack;)Z", false));
                         list.add(amongus);
                         method.instructions.insertBefore(node, list);
+
+                        node = node.getNext().getNext().getNext().getNext();
+                        method.instructions.remove(node.getPrevious());
+
+                        list.clear();
+                        list.add(new MethodInsnNode(INVOKESTATIC, HOOKS, "getFuelValue", "(Lnet/minecraft/item/ItemStack;)I", false));
+                        method.instructions.insertBefore(node, list);
                     }
                 }
-                if (method.name.equals("isItemValidForSlot")) {
+                if (method.name.equals(TTweakerLoadingPlugin.deobf ? "isItemValidForSlot" : "func_94041_b")) {
                     AbstractInsnNode node = null;
                     for (AbstractInsnNode n : method.instructions.toArray()) {
                         if (n.getOpcode() == ALOAD && n.getNext().getOpcode() == INVOKEVIRTUAL) {
@@ -103,31 +111,43 @@ public class TTweakerClassTransformer implements IClassTransformer {
                 }
             }
         });
+        MAP.put("net.minecraft.inventory.ContainerBrewingStand", (cls) -> {
+            Iterator<MethodNode> var1 = cls.methods.iterator();
 
-        MAP.put("net.minecraft.inventory.ContainerBrewingStand$Fuel", cls -> {
-            for (MethodNode method : cls.methods) {
-                if (method.name.equals("isValidBrewingFuel")) {
-                    AbstractInsnNode node = null;
-                    for (AbstractInsnNode n : method.instructions.toArray()) {
-                        if (n.getOpcode() == ALOAD) {
-                            node = n.getNext();
-                            break;
-                        }
-                    }
-
-                    if (node != null) {
-                        for (int i = 0; i < 10; i++) {
-                            node = node.getNext();
-                            method.instructions.remove(node.getPrevious());
+            while(true) {
+                MethodNode method;
+                AbstractInsnNode node;
+                do {
+                    do {
+                        if (!var1.hasNext()) {
+                            return;
                         }
 
-                        InsnList list = new InsnList();
-                        list.add(new MethodInsnNode(INVOKESTATIC, HOOKS, "hasFuel", "(Lnet/minecraft/item/ItemStack;)Z", false));
-                        method.instructions.insertBefore(node, list);
-                    }
+                        method = var1.next();
+                    } while(!method.name.equals("<init>"));
 
-                    break;
+                    node = null;
+                    AbstractInsnNode[] var4 = method.instructions.toArray();
+
+                    for (AbstractInsnNode n : var4) {
+                        if (n.getOpcode() == 187 && ((TypeInsnNode) n).desc.equals("net/minecraft/inventory/ContainerBrewingStand$Fuel")) {
+                            node = n;
+                        }
+                    }
+                } while(node == null);
+
+                for(int i = 0; i < 7; ++i) {
+                    node = node.getNext();
+                    method.instructions.remove(node.getPrevious());
                 }
+
+                InsnList list = new InsnList();
+                list.add(new VarInsnNode(25, 2));
+                list.add(new InsnNode(7));
+                list.add(new IntInsnNode(16, 17));
+                list.add(new IntInsnNode(16, 17));
+                list.add(new MethodInsnNode(184, HOOKS, "getFuelSlot", "(Lnet/minecraft/inventory/IInventory;III)Lsurreal/ttweaker/core/TTweakerHooks$Fuel;", false));
+                method.instructions.insertBefore(node, list);
             }
         });
     }

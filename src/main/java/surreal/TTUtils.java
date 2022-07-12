@@ -14,7 +14,7 @@ public class TTUtils {
         StringBuilder builder = new StringBuilder(name);
         builder.append(":").append(meta);
 
-        if (nbt != null) builder.append("#").append(nbt.toString());
+        if (nbt != null) builder.append("#").append(nbt);
 
         return builder.toString();
     }

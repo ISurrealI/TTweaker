@@ -1,6 +1,7 @@
 package surreal.ttweaker.core;
 
 import net.minecraftforge.common.ForgeVersion;
+import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ import java.util.Map;
 public class TTweakerLoadingPlugin implements IFMLLoadingPlugin {
     protected static final String ID = "Turquoise Tweaker";
     public static final Logger LOGGER = LogManager.getLogger(ID);
+    public static final boolean deobf = FMLLaunchHandler.isDeobfuscatedEnvironment();
 
     @Override
     public String[] getASMTransformerClass() {
