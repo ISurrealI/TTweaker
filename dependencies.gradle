@@ -1,0 +1,14 @@
+
+repositories {
+    maven {
+        name 'CurseMaven'
+        url 'https://cursemaven.com'
+        content {
+            includeGroup 'curse.maven'
+        }
+    }
+}
+
+dependencies {
+    implementation 'curse.maven:crafttweaker-239197:4566528'
+}
