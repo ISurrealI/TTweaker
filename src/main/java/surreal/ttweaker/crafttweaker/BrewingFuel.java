@@ -3,20 +3,20 @@ package surreal.ttweaker.crafttweaker;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenCustomHashMap;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import org.apache.logging.log4j.LogManager;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 import surreal.ttweaker.utils.ComparableStack;
+import surreal.ttweaker.utils.HashStrategies;
 
 import java.util.Map;
 
 @ZenClass("mods.ttweaker.BrewingFuel")
 public class BrewingFuel {
 
-    private static final Map<ComparableStack, Integer> map = new Object2IntOpenHashMap<>();
+    private static final Map<ItemStack, Integer> map = new Object2IntOpenCustomHashMap<>(HashStrategies.ITEMSTACK_STRATEGY);
 
     @ZenMethod
     public static void addFuel(IItemStack stack) {
@@ -27,16 +27,16 @@ public class BrewingFuel {
     public static void addFuel(IItemStack stack, int fuelAmount) {
 
         if (stack == null) {
-            CraftTweakerAPI.logError("[TTweaker - Brewing Fuel]: Stack is null!");
+            CraftTweakerAPI.logError("[TTweaker - Brewing Fuel]: The given stack is null!");
             return;
         }
 
         if (fuelAmount <= 0) {
-            CraftTweakerAPI.logError("[TTweaker - Brewing Fuel]: Amount is smaller or equal to 0!");
+            CraftTweakerAPI.logError("[TTweaker - Brewing Fuel]: The given amount is smaller or equal to 0!");
             return;
         }
 
-        map.put(new ComparableStack(CraftTweakerMC.getItemStack(stack)), fuelAmount);
+        map.put(CraftTweakerMC.getItemStack(stack), fuelAmount);
     }
 
     @ZenMethod
@@ -46,19 +46,17 @@ public class BrewingFuel {
 
     // INTERNAL //
     public static int getTime(ItemStack stack) {
-        LogManager.getLogger("getTime").info("Testing with " + stack.getItem().getRegistryName());
-        return map.get(new ComparableStack(stack));
+        return map.get(stack);
     }
 
     public static boolean hasKey(ItemStack stack) {
         ComparableStack c = new ComparableStack(stack);
-        LogManager.getLogger("hasKey").info("Testing with " + c);
-        return map.containsKey(new ComparableStack(stack));
+        return map.containsKey(stack);
     }
 
 
     static {
-        map.put(new ComparableStack(Items.BLAZE_POWDER), 20);
+        map.put(new ItemStack(Items.BLAZE_POWDER), 20);
     }
 
 }

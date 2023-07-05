@@ -5,10 +5,10 @@ import crafttweaker.api.block.IBlockState;
 import crafttweaker.api.item.IItemDefinition;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.block.Block;
-import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-@ZenClass("crafttweaker.item.IItemDefinition")
+@ZenExpansion("crafttweaker.item.IItemDefinition")
 public class ItemDefinitionExpansion {
 
     @ZenMethod
